@@ -3,28 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>দৈনিক প্রতিচ্ছবি - অটো ফটো কার্ড</title>
+    <title>দৈনিক প্রতিচ্ছবি - ফটো কার্ড জেনারেটর</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        #canvas-container { display: none; }
-    </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center p-5">
+<body class="bg-gray-200 flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold text-center text-red-600 mb-4">Photo Card Generator</h2>
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg border-t-4 border-red-600">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Daily Proticchhobi Auto Card</h2>
         
-        <label class="block mb-2 font-semibold">আপনার নাম লিখুন:</label>
-        <input type="text" id="userName" placeholder="নাম লিখুন" class="w-full p-2 border rounded mb-4">
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">পূর্ণ নাম:</label>
+                <input type="text" id="userName" placeholder="এখানে নাম লিখুন" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none">
+            </div>
 
-        <label class="block mb-2 font-semibold">ছবি আপলোড করুন:</label>
-        <input type="file" id="imageUpload" accept="image/*" class="w-full p-2 border rounded mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">আপনার ছবি আপলোড করুন:</label>
+                <input type="file" id="imageUpload" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50">
+            </div>
 
-        <button onclick="generateCard()" class="w-full bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition">কার্ড তৈরি করুন</button>
+            <button onclick="generateCard()" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition-all shadow-md">
+                কার্ড তৈরি করুন ✨
+            </button>
+        </div>
         
-        <div id="output-area" class="mt-6 flex flex-col items-center">
-            <canvas id="photoCard" width="800" height="1000" class="border shadow-md max-w-full h-auto"></canvas>
-            <button id="downloadBtn" style="display:none;" onclick="downloadImage()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded">ডাউনলোড করুন</button>
+        <div id="output-area" class="mt-8 flex flex-col items-center hidden">
+            <canvas id="photoCard" width="800" height="1000" class="border-4 border-white shadow-xl max-w-full h-auto rounded-lg"></canvas>
+            <button id="downloadBtn" onclick="downloadImage()" class="mt-6 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-bold shadow-lg flex items-center gap-2">
+                📥 কার্ডটি সেভ করুন
+            </button>
         </div>
     </div>
 
@@ -32,62 +39,84 @@
         const canvas = document.getElementById('photoCard');
         const ctx = canvas.getContext('2d');
         const logo = new Image();
-        logo.src = '1000067122.jpg'; // আপনার দেওয়া লোগো ফাইল
+        
+        // আপনার দেওয়া লোগো ফাইলটির নাম এখানে নিশ্চিত করুন
+        logo.src = '1000067122.jpg'; 
 
         function generateCard() {
-            const name = document.getElementById('userName').value || "আপনার নাম";
-            const file = document.getElementById('imageUpload').files[0];
-            const reader = new FileReader();
-
-            if (!file) {
-                alert("দয়া করে একটি ছবি সিলেক্ট করুন।");
+            const name = document.getElementById('userName').value.trim() || "সম্মানিত সদস্য";
+            const fileInput = document.getElementById('imageUpload');
+            
+            if (fileInput.files.length === 0) {
+                alert("দয়া করে একটি ছবি আপলোড করুন!");
                 return;
             }
 
+            const reader = new FileReader();
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
-                    // ১. ব্যাকগ্রাউন্ড ডিজাইন
+                    // ১. ক্যানভাস ক্লিয়ার এবং সাদা ব্যাকগ্রাউন্ড
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.fillStyle = "#ffffff";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                    // ২. লোগো/হেডার সেকশন (কালো ব্যাকগ্রাউন্ড লোগোর জন্য)
+                    // ২. টপ হেডার (কালো ব্যাকগ্রাউন্ড)
                     ctx.fillStyle = "#000000";
-                    ctx.fillRect(0, 0, canvas.width, 200);
-                    ctx.drawImage(logo, 50, 25, 700, 150);
+                    ctx.fillRect(0, 0, canvas.width, 220);
+                    
+                    // লোগো ড্রয়িং (যদি লোড হয়)
+                    try {
+                        ctx.drawImage(logo, 50, 30, 700, 160);
+                    } catch (e) {
+                        console.error("Logo failed to load");
+                    }
 
-                    // ৩. ইউজারের ছবি (মাঝখানে)
+                    // ৩. ইউজারের ছবি (বৃত্তাকার ফ্রেম)
+                    const centerX = canvas.width / 2;
+                    const centerY = 520;
+                    const radius = 240;
+
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(400, 500, 250, 0, Math.PI * 2, true);
+                    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
                     ctx.closePath();
+                    ctx.lineWidth = 15;
+                    ctx.strokeStyle = '#22c55e'; // সবুজ বর্ডার
+                    ctx.stroke();
                     ctx.clip();
-                    ctx.drawImage(img, 150, 250, 500, 500);
+                    ctx.drawImage(img, centerX - radius, centerY - radius, radius * 2, radius * 2);
                     ctx.restore();
 
-                    // ৪. বর্ডার এবং টেক্সট সেকশন
-                    ctx.fillStyle = "#e11d48"; // নিউজ রেড কালার
-                    ctx.fillRect(0, 800, canvas.width, 200);
+                    // ৪. ফুটার ডিজাইন (লাল প্যানেল)
+                    ctx.fillStyle = "#dc2626"; 
+                    ctx.fillRect(0, 820, canvas.width, 180);
 
+                    // ৫. টেক্সট ড্রয়িং
                     ctx.fillStyle = "#ffffff";
-                    ctx.font = "bold 50px Arial";
                     ctx.textAlign = "center";
-                    ctx.fillText(name, 400, 880);
                     
-                    ctx.font = "30px Arial";
-                    ctx.fillText("ভেরিফাইড মেম্বার - দৈনিক প্রতিচ্ছবি", 400, 940);
+                    // নাম
+                    ctx.font = "bold 55px Arial";
+                    ctx.fillText(name, canvas.width / 2, 900);
+                    
+                    // পদবী/স্ট্যাটাস
+                    ctx.font = "35px Arial";
+                    ctx.fillText("ভেরিফাইড মেম্বার - দৈনিক প্রতিচ্ছবি", canvas.width / 2, 960);
 
-                    document.getElementById('downloadBtn').style.display = 'block';
+                    // আউটপুট দেখানো
+                    document.getElementById('output-area').classList.remove('hidden');
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 }
                 img.src = event.target.result;
             }
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(fileInput.files[0]);
         }
 
         function downloadImage() {
             const link = document.createElement('a');
             link.download = 'Dainik_Protichhobi_Card.png';
-            link.href = canvas.toDataURL();
+            link.href = canvas.toDataURL('image/png');
             link.click();
         }
     </script>
