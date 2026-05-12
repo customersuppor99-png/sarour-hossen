@@ -3,120 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>দৈনিক প্রতিচ্ছবি - ফটো কার্ড জেনারেটর</title>
+    <title>দৈনিক প্রতিচ্ছবি - প্রিমিয়াম কার্ড</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; background: #0f172a; }
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
 </head>
-<body class="bg-gray-200 flex flex-col items-center justify-center min-h-screen p-4">
+<body class="text-white flex flex-col items-center py-10 px-4">
 
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg border-t-4 border-red-600">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Daily Proticchhobi Auto Card</h2>
-        
-        <div class="space-y-4">
+    <!-- Header -->
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-black bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent italic">DAINIK PROTICCHOBI</h1>
+        <p class="text-gray-400 mt-2 text-sm tracking-widest uppercase">Digital Media Member Portal</p>
+    </div>
+
+    <div class="glass p-8 rounded-3xl shadow-2xl w-full max-w-lg">
+        <div class="space-y-5">
             <div>
-                <label class="block text-sm font-medium text-gray-700">পূর্ণ নাম:</label>
-                <input type="text" id="userName" placeholder="এখানে নাম লিখুন" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none">
+                <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-bold">মেম্বার নাম</label>
+                <input type="text" id="userName" placeholder="আপনার নাম লিখুন..." class="w-full bg-slate-800 border-none p-4 rounded-xl focus:ring-2 focus:ring-red-600 outline-none text-white">
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">আপনার ছবি আপলোড করুন:</label>
-                <input type="file" id="imageUpload" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50">
+                <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-bold">প্রোফাইল ছবি</label>
+                <input type="file" id="imageUpload" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer">
             </div>
 
-            <button onclick="generateCard()" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition-all shadow-md">
-                কার্ড তৈরি করুন ✨
+            <button onclick="generateCard()" class="w-full bg-gradient-to-r from-red-600 to-red-800 p-4 rounded-xl font-bold uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-lg">
+                তৈরি করুন ✨
             </button>
         </div>
+    </div>
+
+    <!-- Output Section -->
+    <div id="output-area" class="mt-12 hidden flex flex-col items-center">
+        <canvas id="photoCard" width="1080" height="1080" class="rounded-2xl shadow-2xl border-4 border-slate-700 w-full max-w-[500px]"></canvas>
         
-        <div id="output-area" class="mt-8 flex flex-col items-center hidden">
-            <canvas id="photoCard" width="800" height="1000" class="border-4 border-white shadow-xl max-w-full h-auto rounded-lg"></canvas>
-            <button id="downloadBtn" onclick="downloadImage()" class="mt-6 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-bold shadow-lg flex items-center gap-2">
-                📥 কার্ডটি সেভ করুন
-            </button>
-        </div>
+        <button onclick="downloadImage()" class="mt-8 bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            ডাউনলোড এইচডি কার্ড
+        </button>
     </div>
 
     <script>
         const canvas = document.getElementById('photoCard');
         const ctx = canvas.getContext('2d');
         const logo = new Image();
-        
-        // আপনার দেওয়া লোগো ফাইলটির নাম এখানে নিশ্চিত করুন
-        logo.src = '1000067122.jpg'; 
+        logo.src = '1000067122.jpg'; // লোগো ফাইল
 
         function generateCard() {
             const name = document.getElementById('userName').value.trim() || "সম্মানিত সদস্য";
             const fileInput = document.getElementById('imageUpload');
             
             if (fileInput.files.length === 0) {
-                alert("দয়া করে একটি ছবি আপলোড করুন!");
+                alert("একটি ছবি আপলোড করুন!");
                 return;
             }
 
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
-                    // ১. ক্যানভাস ক্লিয়ার এবং সাদা ব্যাকগ্রাউন্ড
+                    // ১. ক্যানভাস সাইজ ১০৮০x১০৮০ (ইনস্টাগ্রাম সাইজ)
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = "#ffffff";
+                    
+                    // ২. ব্যাকগ্রাউন্ড (ডার্ক গ্রাডিয়েন্ট)
+                    const bgGrad = ctx.createLinearGradient(0, 0, 0, 1080);
+                    bgGrad.addColorStop(0, "#1e293b");
+                    bgGrad.addColorStop(1, "#0f172a");
+                    ctx.fillStyle = bgGrad;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                    // ২. টপ হেডার (কালো ব্যাকগ্রাউন্ড)
-                    ctx.fillStyle = "#000000";
-                    ctx.fillRect(0, 0, canvas.width, 220);
-                    
-                    // লোগো ড্রয়িং (যদি লোড হয়)
-                    try {
-                        ctx.drawImage(logo, 50, 30, 700, 160);
-                    } catch (e) {
-                        console.error("Logo failed to load");
-                    }
+                    // ৩. মেইন ইমেজ (ফুল ব্যাকগ্রাউন্ড ব্লার ইফেক্ট)
+                    ctx.globalAlpha = 0.3;
+                    ctx.drawImage(img, -100, -100, 1280, 1280);
+                    ctx.globalAlpha = 1.0;
 
-                    // ৩. ইউজারের ছবি (বৃত্তাকার ফ্রেম)
-                    const centerX = canvas.width / 2;
-                    const centerY = 520;
-                    const radius = 240;
-
+                    // ৪. ছবির জন্য স্টাইলিশ ফ্রেম
                     ctx.save();
+                    ctx.strokeStyle = "#dc2626";
+                    ctx.lineWidth = 20;
                     ctx.beginPath();
-                    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-                    ctx.closePath();
-                    ctx.lineWidth = 15;
-                    ctx.strokeStyle = '#22c55e'; // সবুজ বর্ডার
+                    ctx.roundRect(140, 140, 800, 800, 40);
                     ctx.stroke();
                     ctx.clip();
-                    ctx.drawImage(img, centerX - radius, centerY - radius, radius * 2, radius * 2);
+                    ctx.drawImage(img, 140, 140, 800, 800);
                     ctx.restore();
 
-                    // ৪. ফুটার ডিজাইন (লাল প্যানেল)
-                    ctx.fillStyle = "#dc2626"; 
-                    ctx.fillRect(0, 820, canvas.width, 180);
+                    // ৫. লোগো ওভারলে (বটম বার)
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+                    ctx.fillRect(0, 850, 1080, 230);
+                    
+                    // লোগো বসানো
+                    try {
+                        ctx.drawImage(logo, 340, 870, 400, 80);
+                    } catch(err) {}
 
-                    // ৫. টেক্সট ড্রয়িং
+                    // ৬. টেক্সট ডিজাইন
                     ctx.fillStyle = "#ffffff";
                     ctx.textAlign = "center";
                     
-                    // নাম
-                    ctx.font = "bold 55px Arial";
-                    ctx.fillText(name, canvas.width / 2, 900);
+                    // নাম (বড় করে)
+                    ctx.font = "bold 60px 'Hind Siliguri'";
+                    ctx.fillText(name, 540, 1000);
                     
-                    // পদবী/স্ট্যাটাস
-                    ctx.font = "35px Arial";
-                    ctx.fillText("ভেরিফাইড মেম্বার - দৈনিক প্রতিচ্ছবি", canvas.width / 2, 960);
+                    // সাবটাইটেল
+                    ctx.fillStyle = "#cbd5e1";
+                    ctx.font = "30px 'Hind Siliguri'";
+                    ctx.fillText("গর্বিত সদস্য - ডিজিটাল মিডিয়া ক্লাব", 540, 1045);
 
-                    // আউটপুট দেখানো
+                    // ৭. ব্যাজ (Verified)
+                    ctx.fillStyle = "#dc2626";
+                    ctx.beginPath();
+                    ctx.arc(920, 160, 60, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "white";
+                    ctx.font = "bold 30px Arial";
+                    ctx.fillText("✓", 920, 175);
+
                     document.getElementById('output-area').classList.remove('hidden');
                     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 }
-                img.src = event.target.result;
+                img.src = e.target.result;
             }
             reader.readAsDataURL(fileInput.files[0]);
         }
 
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = 'Dainik_Protichhobi_Card.png';
-            link.href = canvas.toDataURL('image/png');
+            link.download = 'Dainik_Protichhobi_Premium.png';
+            link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
     </script>
