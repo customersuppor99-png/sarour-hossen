@@ -1,356 +1,94 @@
 <!DOCTYPE html>
-<html lang="bn" class="scroll-smooth">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>National Journalist Accreditation & Verification Portal 2026</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>দৈনিক প্রতিচ্ছবি - অটো ফটো কার্ড</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Space+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#000000',
-                            card: '#0a0a0a',
-                            gold: '#fbbf24',
-                            goldDark: '#b45309',
-                            accent: '#ff0000',
-                            success: '#00ff41'
-                        },
-                        fontFamily: {
-                            sans: ['Hind Siliguri', 'sans-serif'],
-                            mono: ['Space Mono', 'monospace'],
-                            cyber: ['Orbitron', 'sans-serif']
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        body { background-color: #000; color: #fff; overflow-x: hidden; }
-        .glass-panel { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(251, 191, 36, 0.15); }
-        .gold-gradient-text { background: linear-gradient(135deg, #fbbf24 0%, #fff 50%, #b45309 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* Interactive Scanning Effect */
-        .scan-line { width: 100%; height: 3px; background: rgba(0, 255, 65, 0.4); position: absolute; animation: scanMove 4s linear infinite; z-index: 20; box-shadow: 0 0 15px #00ff41; }
-        @keyframes scanMove { 0% { top: 0%; } 100% { top: 100%; } }
-
-        /* Floating Animation for Elements */
-        .floating { animation: floatAnim 4s ease-in-out infinite; }
-        @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        /* High-Intensity Pulse */
-        .pulse-gold { animation: pulseG 2s infinite; }
-        @keyframes pulseG { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.6); } 70% { box-shadow: 0 0 0 25px rgba(251, 191, 36, 0); } 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 10px; }
-
-        .matrix-bg { background-image: radial-gradient(rgba(251, 191, 36, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
+        #canvas-container { display: none; }
     </style>
 </head>
-<body class="matrix-bg">
+<body class="bg-gray-100 flex flex-col items-center p-5">
 
-    <div class="fixed top-0 w-full z-[100] bg-brand-gold text-black py-1.5 text-[10px] md:text-xs font-black uppercase text-center tracking-[0.3em] px-4 shadow-2xl">
-        <i class="fas fa-lock-shield mr-2"></i> Secured Connection: AES-256 Verified | Active Session: 2026-BD-PRO
-    </div>
-
-    <nav class="fixed top-10 left-1/2 -translate-x-1/2 w-[94%] max-w-7xl z-50 glass-panel rounded-3xl px-6 py-4 flex items-center justify-between border-brand-gold/20 shadow-[0_0_50px_rgba(0,0,0,1)]">
-        <div class="flex items-center gap-3">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" class="h-10 w-10 drop-shadow-lg" alt="Seal">
-            <div>
-                <h2 class="text-white font-black text-xl tracking-tighter leading-none font-cyber">PRESS<span class="text-brand-gold">HUB</span></h2>
-                <span class="text-[8px] text-slate-500 uppercase tracking-widest font-mono italic">Accreditation Board</span>
-            </div>
-        </div>
-        <button onclick="openModal()" class="bg-brand-gold text-black px-6 py-2.5 rounded-2xl font-black text-sm hover:scale-105 transition-all shadow-xl active:scale-95">
-            অ্যাক্টিভেশন
-        </button>
-    </nav>
-
-    <header class="min-h-screen pt-44 pb-20 px-6 relative flex flex-col items-center text-center">
-        <div class="absolute top-40 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-brand-gold/10 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-red-600 mb-4">Photo Card Generator</h2>
         
-        <div data-aos="fade-down" class="glass-panel px-6 py-2 rounded-full border border-brand-gold/30 text-brand-gold font-black text-[10px] md:text-xs uppercase tracking-[0.4em] mb-8">
-            <i class="fas fa-id-badge mr-2"></i> চুড়ান্ত সিলেকশন ও ভেরিফিকেশন সম্পন্ন
-        </div>
+        <label class="block mb-2 font-semibold">আপনার নাম লিখুন:</label>
+        <input type="text" id="userName" placeholder="নাম লিখুন" class="w-full p-2 border rounded mb-4">
 
-        <h1 data-aos="zoom-in" data-aos-delay="200" class="text-4xl md:text-7xl font-black text-white leading-tight mb-8">
-            আপনার পরিচয় এখন <br>
-            <span class="gold-gradient-text italic">আন্তর্জাতিক মানের!</span>
-        </h1>
+        <label class="block mb-2 font-semibold">ছবি আপলোড করুন:</label>
+        <input type="file" id="imageUpload" accept="image/*" class="w-full p-2 border rounded mb-4">
 
-        <div data-aos="fade-up" data-aos-delay="400" class="max-w-3xl glass-panel p-8 rounded-[3rem] border-l-8 border-brand-gold mb-12 text-left shadow-2xl">
-            <h4 class="text-brand-gold font-bold mb-3 uppercase tracking-widest italic text-sm">অফিসিয়াল বার্তা:</h4>
-            <p class="text-slate-300 text-lg leading-relaxed font-light">
-                আপনার সকল তথ্য অত্যন্ত নিষ্ঠার সাথে যাচাই-বাছাই শেষে আপনাকে নির্বাচিত করা হয়েছে। আপনার এই নতুন পরিচয় এবং মর্যাদার প্রতীক ইতোমধ্যে আপনার ঠিকানায় প্রেরণ করা হয়েছে। এটি আপনার জীবনের একটি অত্যন্ত গুরুত্বপূর্ণ এবং সম্মানজনক ধাপ।
-            </p>
-        </div>
-
-        <button onclick="openModal()" class="w-full max-w-sm bg-brand-accent text-white py-6 rounded-[2.5rem] font-black text-2xl pulse-gold shadow-2xl hover:bg-red-700 transition-all flex items-center justify-center gap-3">
-            পার্সেল কনফার্ম করুন <i class="fas fa-truck-fast"></i>
-        </button>
-    </header>
-
-    <section class="py-20 px-6 max-w-6xl mx-auto">
-        <div class="glass-panel rounded-[3rem] border-white/5 p-8 relative overflow-hidden min-h-[400px]">
-            <div class="scan-line opacity-30"></div>
-            <div class="flex gap-2 mb-8">
-                <div class="w-3 h-3 rounded-full bg-brand-accent"></div>
-                <div class="w-3 h-3 rounded-full bg-brand-gold"></div>
-                <div class="w-3 h-3 rounded-full bg-brand-success"></div>
-                <span class="ml-4 text-[10px] text-slate-500 font-mono tracking-widest uppercase">System Control Unit 4.0</span>
-            </div>
-
-            <div id="terminal" class="font-mono text-brand-success/80 text-sm md:text-lg leading-relaxed space-y-4">
-                <p class="text-white font-bold">> সিস্টেম সিঙ্ক্রোনাইজেশন সম্পন্ন হয়েছে...</p>
-                <p class="text-slate-500 italic">> আপনার সকল ডিজিটাল সার্টিফিকেট এবং কার্ড এখন প্রিন্টিং ও প্যাকেজিং শেষে ডেলিভারি রুটে আছে।</p>
-                <div id="terminal-output" class="bg-black/50 p-6 rounded-2xl border border-white/5 mt-6 hidden">
-                    </div>
-            </div>
-
-            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button onclick="runCommand('check_ship')" class="bg-white/5 hover:bg-brand-gold hover:text-black py-4 rounded-2xl font-bold text-[10px] uppercase border border-brand-gold/20 transition-all">শিপমেন্ট চেক</button>
-                <button onclick="runCommand('verify_user')" class="bg-white/5 hover:bg-sky-500 py-4 rounded-2xl font-bold text-[10px] uppercase border border-sky-400/20 transition-all">ইউজার ডাটা</button>
-                <button onclick="runCommand('legal_aid')" class="bg-white/5 hover:bg-brand-accent py-4 rounded-2xl font-bold text-[10px] uppercase border border-brand-accent/20 transition-all">আইনি এক্সেস</button>
-                <button onclick="runCommand('system_log')" class="bg-white/5 hover:bg-brand-success hover:text-black py-4 rounded-2xl font-bold text-[10px] uppercase border border-brand-success/20 transition-all">সিস্টেম লগ</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 bg-brand-card/50">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black gold-gradient-text uppercase mb-4 tracking-tighter italic">আপনার পার্সেলে যা রয়েছে</h2>
-                <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">৯টি প্রিমিয়াম অফিসিয়াল আইটেম</p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                <div data-aos="fade-up" class="glass-panel p-8 text-center hover:border-brand-gold/50 group transition-all">
-                    <div class="w-16 h-16 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-id-card text-3xl text-brand-gold"></i>
-                    </div>
-                    <h3 class="font-bold text-white mb-2">আইডি কার্ড</h3>
-                    <p class="text-[10px] text-slate-500 leading-relaxed uppercase">ছবিসহ মানসম্মত অফিসিয়াল আইডি কার্ড।</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="100" class="glass-panel p-8 text-center hover:border-brand-gold/50 group transition-all">
-                    <div class="w-16 h-16 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-ribbon text-3xl text-brand-gold"></i>
-                    </div>
-                    <h3 class="font-bold text-white mb-2">প্রফেশনাল ফিতা</h3>
-                    <p class="text-[10px] text-slate-500 leading-relaxed uppercase">কাস্টম ডিজাইনড Lanyard।</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="200" class="glass-panel p-8 text-center hover:border-brand-gold/50 group transition-all">
-                    <div class="w-16 h-16 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-pen-fancy text-3xl text-brand-gold"></i>
-                    </div>
-                    <h3 class="font-bold text-white mb-2">প্রিন্টেড কলম</h3>
-                    <p class="text-[10px] text-slate-500 leading-relaxed uppercase">লোগোসহ প্রিমিয়াম কাস্টম কলম।</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="300" class="glass-panel p-8 text-center hover:border-brand-gold/50 group transition-all">
-                    <div class="w-16 h-16 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-key text-3xl text-brand-gold"></i>
-                    </div>
-                    <h3 class="font-bold text-white mb-2">চাবির রিং</h3>
-                    <p class="text-[10px] text-slate-500 leading-relaxed uppercase">অফিসিয়াল লোগোযুক্ত প্রিমিয়াম কি-রিং।</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="400" class="glass-panel p-8 text-center hover:border-brand-gold/50 group transition-all">
-                    <div class="w-16 h-16 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-motorcycle text-3xl text-brand-gold"></i>
-                    </div>
-                    <h3 class="font-bold text-white mb-2">বাইক স্টিকার</h3>
-                    <p class="text-[10px] text-slate-500 leading-relaxed uppercase">আপনার বাইকের জন্য বিশেষ ভেরিফাইড স্টিকার।</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="500" class="glass-panel p-8 text-center border-brand-success/40 bg-brand-success/5 group transition-all">
-                    <div class="w-16 h-16 bg-brand-success/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-user-shield text-3xl text-brand-success"></i>
-                    </div>
-                    <h3 class="font-bold text-brand-success mb-2 uppercase italic">নিউজ অ্যাকাউন্ট</h3>
-                    <p class="text-[10px] text-slate-400 leading-relaxed uppercase">ইউজার আইডি ও পাসওয়ার্ড (ভিতরে দেওয়া)।</p>
-                </div>
-            </div>
-
-            <div class="mt-12 bg-brand-accent/10 border-2 border-dashed border-brand-accent/40 p-10 rounded-[3rem] text-center">
-                <i class="fas fa-circle-exclamation text-4xl text-brand-accent mb-6 animate-pulse"></i>
-                <h4 class="text-2xl font-black text-brand-accent mb-4 uppercase tracking-tighter">অ্যাক্টিভেশন বাধ্যতামূলক নির্দেশনা</h4>
-                <p class="text-slate-300 italic">এই অফিসিয়াল প্যাকেজটি গ্রহণ না করলে আপনার অনলাইন পরিচয় এবং সার্ভার অ্যাক্সেস কোনোভাবেই সক্রিয় হবে না। আপনার নাম তালিকাভুক্ত করা হয়েছে, কিন্তু চূড়ান্ত সক্রিয়করণ আপনার হাতে।</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 relative">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-4xl font-black text-center mb-16 gold-gradient-text uppercase">অফিসিয়াল সদস্য সুবিধা</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div data-aos="fade-right" class="glass-panel p-8 rounded-[3rem] flex items-center gap-6 border-l-8 border-brand-gold">
-                    <div class="text-4xl text-brand-gold"><i class="fas fa-globe"></i></div>
-                    <div>
-                        <h4 class="text-xl font-bold mb-1">বিনামূল্যে সাংবাদিকতা</h4>
-                        <p class="text-sm text-slate-500">আমাদের পোর্টালে সম্পূর্ণ বিনামূল্যে কাজ করার সুযোগ। <span class="text-brand-success font-bold">Active ✅</span></p>
-                    </div>
-                </div>
-                <div data-aos="fade-left" class="glass-panel p-8 rounded-[3rem] flex items-center gap-6 border-l-8 border-sky-400">
-                    <div class="text-4xl text-sky-400"><i class="fas fa-upload"></i></div>
-                    <div>
-                        <h4 class="text-xl font-bold mb-1">সীমাহীন সংবাদ প্রকাশ</h4>
-                        <p class="text-sm text-slate-500">নিউজ, ছবি ও ভিডিও আপলোড করার পূর্ণ স্বাধীনতা। <span class="text-sky-400 font-bold tracking-widest">UNLIMITED 🚀</span></p>
-                    </div>
-                </div>
-                <div data-aos="fade-right" class="glass-panel p-8 rounded-[3rem] flex items-center gap-6 border-l-8 border-brand-success">
-                    <div class="text-4xl text-brand-success"><i class="fas fa-shield-gavel"></i></div>
-                    <div>
-                        <h4 class="text-xl font-bold mb-1">আইনি সহায়তা</h4>
-                        <p class="text-sm text-slate-500">পেশাগত দায়িত্ব পালনে যেকোনো আইনি ব্যাকআপ। <span class="text-brand-success font-bold">LEGAL COVER ⚖️</span></p>
-                    </div>
-                </div>
-                <div data-aos="fade-left" class="glass-panel p-8 rounded-[3rem] flex items-center gap-6 border-l-8 border-brand-accent">
-                    <div class="text-4xl text-brand-accent"><i class="fas fa-heart-pulse"></i></div>
-                    <div>
-                        <h4 class="text-xl font-bold mb-1">স্বাস্থ্য ও জীবনবীমা</h4>
-                        <p class="text-sm text-slate-500">সদস্যদের জন্য বিশেষ হেলথ কার্ড ও জীবনবীমা। <span class="text-brand-accent font-bold italic">FULL FAMILY ❤️</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 bg-gradient-to-t from-brand-gold/10 to-transparent">
-        <div class="max-w-4xl mx-auto glass-panel p-12 rounded-[4rem] text-center border-dashed border-brand-gold/30">
-            <i class="fas fa-gift text-6xl text-brand-gold mb-8 floating"></i>
-            <h2 class="text-3xl font-black mb-6 uppercase">🎉 বিশেষ আয়োজন ও মেগা পুরস্কার</h2>
-            <p class="text-slate-400 text-lg italic mb-10">পার্সেল গ্রহণ করলেই আপনি পাবেন একটি বিশেষ ড্র-তে অংশগ্রহণের সুযোগ, যেখানে রয়েছে মোবাইল ফোন, টি-শার্ট এবং আকর্ষণীয় গ্যাজেট প্যাকেজ!</p>
-            
-            <div class="bg-black/60 p-8 rounded-3xl border border-white/5 text-left font-mono">
-                <h5 class="text-brand-success font-bold mb-4 uppercase tracking-widest">> এআই অটো সিস্টেম স্ট্যাটাস:</h5>
-                <p class="text-slate-500 text-sm leading-relaxed italic">
-                    আপনার তথ্য স্বয়ংক্রিয়ভাবে অনলাইনে আপলোড করা হবে। পার্সেল হাতে পাওয়ার পর ধাপে ধাপে সবকিছু বুঝিয়ে দেওয়া হবে। SMS এর মাধ্যমে আপডেট পাবেন এবং একাউন্ট সরাসরি অ্যাক্টিভ হবে।
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-32 px-6 text-center border-t border-white/10 bg-black">
-        <div class="max-w-2xl mx-auto">
-            <h2 class="text-4xl md:text-6xl font-black mb-8">প্রথম পদক্ষেপ <br> <span class="text-brand-gold italic">গ্রহণ করুন</span></h2>
-            <p class="text-slate-500 mb-12">আপনার মর্যাদা আপনার হাতে। প্রেরিত অফিসিয়াল প্যাকেজটি গ্রহণ করুন এবং আপনার সাংবাদিক পরিচয় সক্রিয় করুন।</p>
-            <button onclick="openModal()" class="w-full bg-brand-gold text-black py-6 rounded-2xl font-black text-2xl pulse-gold active:scale-95 transition-all">
-                কনফার্ম করুন
-            </button>
-            <div class="mt-16 flex justify-center gap-10 grayscale opacity-40">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" class="h-16" alt="Gov">
-                <img src="https://upload.wikimedia.org/wikipedia/en/3/3d/Press_Information_Department_%28Bangladesh%29_logo.png" class="h-16" alt="PID">
-            </div>
-            <p class="mt-12 text-[10px] text-slate-700 tracking-[0.6em] font-mono">&copy; 2026 JOURNALIST PORTAL BD | AES-256 SECURED</p>
-        </div>
-    </footer>
-
-    <div id="deliveryModal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/98 backdrop-blur-3xl px-4 overflow-y-auto">
-        <div class="w-full max-w-sm glass-panel p-8 rounded-[3.5rem] border-brand-gold relative my-auto animate-[zoomIn_0.4s_ease-out]">
-            <button onclick="closeModal()" class="absolute -top-12 right-0 text-white text-4xl"><i class="fas fa-times-circle"></i></button>
-            
-            <div class="text-center">
-                <div class="relative w-24 h-24 mx-auto mb-8">
-                    <div class="absolute inset-0 bg-brand-success rounded-full opacity-20 animate-ping"></div>
-                    <div class="relative bg-brand-success/10 rounded-full h-full w-full flex items-center justify-center border-2 border-brand-success/50">
-                        <i class="fas fa-truck-container text-4xl text-brand-success"></i>
-                    </div>
-                </div>
-
-                <h3 class="text-4xl font-black text-white mb-2 uppercase tracking-tighter leading-none">বুকিং সম্পন্ন!</h3>
-                <p class="text-brand-gold font-bold text-[10px] uppercase tracking-[0.3em] mb-10">Tracking Route Is Active</p>
-
-                <div class="space-y-4 mb-8">
-                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
-                        <span class="text-[10px] text-slate-500 uppercase font-black">Logistic System</span>
-                        <span class="text-xs font-black text-white italic">STEADFAST COURIER</span>
-                    </div>
-                    <div class="flex justify-between items-center bg-brand-gold/10 p-4 rounded-2xl border border-brand-gold/30">
-                        <span class="text-[10px] text-slate-500 uppercase font-black">Estimated Arrival</span>
-                        <span class="text-brand-gold font-black italic">Next 24 Hours</span>
-                    </div>
-                </div>
-
-                <div class="bg-brand-accent/5 p-6 rounded-[2.5rem] border-2 border-brand-accent/20 mb-8 text-left shadow-2xl relative overflow-hidden">
-                    <div class="scan-line opacity-10"></div>
-                    <p class="text-slate-200 text-sm leading-relaxed mb-4">
-                        <i class="fas fa-circle-check mr-2 text-brand-success text-lg"></i>
-                        পার্সেলটি হাতে পাওয়ার পর মাত্র <strong class="text-brand-gold text-2xl underline">৭৫০ টাকা</strong> চার্জ পরিশোধ করে সেটি গ্রহণ করুন।
-                    </p>
-                    <p class="text-[10px] text-slate-500 border-t border-white/10 pt-4 leading-relaxed font-light italic">
-                        প্যাকেজের ভেতরে আপনার ব্যক্তিগত ইউজার আইডি এবং সিকিউরিটি পিন দেওয়া আছে, যা দিয়ে আপনি আপনার সাংবাদিক প্রোফাইল লাইভ করতে পারবেন। সব হাতে পাওয়ার পর বিস্তারিত ধাপে ধাপে বুঝিয়ে দেওয়া হবে।
-                    </p>
-                </div>
-
-                <button onclick="closeModal()" class="w-full bg-brand-success text-black font-black py-6 rounded-2xl text-xl shadow-success-glow shadow-2xl uppercase tracking-tighter active:scale-95 transition-all">
-                    আমি শীঘ্রই গ্রহণ করব
-                </button>
-                
-                <p class="mt-8 text-[9px] text-slate-700 font-mono tracking-widest uppercase">Member ID: ACC-BD-77890-2026</p>
-            </div>
+        <button onclick="generateCard()" class="w-full bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition">কার্ড তৈরি করুন</button>
+        
+        <div id="output-area" class="mt-6 flex flex-col items-center">
+            <canvas id="photoCard" width="800" height="1000" class="border shadow-md max-w-full h-auto"></canvas>
+            <button id="downloadBtn" style="display:none;" onclick="downloadImage()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded">ডাউনলোড করুন</button>
         </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        const canvas = document.getElementById('photoCard');
+        const ctx = canvas.getContext('2d');
+        const logo = new Image();
+        logo.src = '1000067122.jpg'; // আপনার দেওয়া লোগো ফাইল
 
-        function openModal() {
-            document.getElementById('deliveryModal').classList.remove('hidden');
-            document.getElementById('deliveryModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
+        function generateCard() {
+            const name = document.getElementById('userName').value || "আপনার নাম";
+            const file = document.getElementById('imageUpload').files[0];
+            const reader = new FileReader();
+
+            if (!file) {
+                alert("দয়া করে একটি ছবি সিলেক্ট করুন।");
+                return;
+            }
+
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    // ১. ব্যাকগ্রাউন্ড ডিজাইন
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // ২. লোগো/হেডার সেকশন (কালো ব্যাকগ্রাউন্ড লোগোর জন্য)
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, 200);
+                    ctx.drawImage(logo, 50, 25, 700, 150);
+
+                    // ৩. ইউজারের ছবি (মাঝখানে)
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(400, 500, 250, 0, Math.PI * 2, true);
+                    ctx.closePath();
+                    ctx.clip();
+                    ctx.drawImage(img, 150, 250, 500, 500);
+                    ctx.restore();
+
+                    // ৪. বর্ডার এবং টেক্সট সেকশন
+                    ctx.fillStyle = "#e11d48"; // নিউজ রেড কালার
+                    ctx.fillRect(0, 800, canvas.width, 200);
+
+                    ctx.fillStyle = "#ffffff";
+                    ctx.font = "bold 50px Arial";
+                    ctx.textAlign = "center";
+                    ctx.fillText(name, 400, 880);
+                    
+                    ctx.font = "30px Arial";
+                    ctx.fillText("ভেরিফাইড মেম্বার - দৈনিক প্রতিচ্ছবি", 400, 940);
+
+                    document.getElementById('downloadBtn').style.display = 'block';
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(file);
         }
 
-        function closeModal() {
-            document.getElementById('deliveryModal').classList.add('hidden');
-            document.getElementById('deliveryModal').classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        }
-
-        const scripts = {
-            check_ship: `
-                <span class="text-brand-gold">> Connecting to Logistics Server BD...</span><br>
-                <span class="text-white">> Shipment Found: SF-7782-ACC</span><br>
-                <span class="text-brand-success">> Status: In-Transit (On The Way)</span><br>
-                <span class="text-[11px] text-slate-500 italic">> আপনার পার্সেলটি বর্তমানে আপনার শহরের ডেলিভারি সেন্টারে ডিস্ট্রিবিউট করা হচ্ছে।</span>
-            `,
-            verify_user: `
-                <span class="text-brand-gold">> Database Verification...</span><br>
-                <span class="text-brand-success">> Verification Status: COMPLETE</span><br>
-                <span class="text-white">> Profile Status: PENDING ACTIVATION</span><br>
-                <span class="text-[11px] text-slate-500 italic">> নির্দেশনা: প্যাকেজের ভেতরের সিকিউরিটি পিন এন্ট্রি করলে আপনার মেম্বারশিপ চিরস্থায়ী হবে।</span>
-            `,
-            legal_aid: `
-                <span class="text-brand-accent">> Accessing Legal Support Panel...</span><br>
-                <span class="text-white">> Legal Protection: INACTIVE</span><br>
-                <span class="text-brand-gold">> Requirement: Active Official Identity</span><br>
-                <span class="text-[11px] text-slate-500 italic">> প্যাকেজটি গ্রহণ করলেই আপনার লিগ্যাল প্রটেকশন সরাসরি অ্যাক্টিভ হয়ে যাবে।</span>
-            `,
-            system_log: `
-                <span class="text-brand-success">> SYNC_START: Member_ID_7890</span><br>
-                <span class="text-white">> PACKAGING_DONE: 100%</span><br>
-                <span class="text-white">> COURIER_ASSIGN: SteadFast</span><br>
-                <span class="text-brand-gold">> SECURITY_LOCK: ENABLED</span>
-            `
-        };
-
-        function runCommand(cmd) {
-            const out = document.getElementById('terminal-output');
-            out.classList.remove('hidden');
-            out.innerHTML = "<span class='animate-pulse text-white'>Processing Request...</span>";
-            setTimeout(() => {
-                out.innerHTML = scripts[cmd];
-            }, 800);
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'Dainik_Protichhobi_Card.png';
+            link.href = canvas.toDataURL();
+            link.click();
         }
     </script>
 </body>
