@@ -3,49 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>দৈনিক প্রতিচ্ছবি - প্রিমিয়াম কার্ড</title>
+    <title>Daily Proticchhobi | Viral Photo Card</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Hind Siliguri', sans-serif; background: #0f172a; }
-        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body { font-family: 'Hind Siliguri', sans-serif; background: #0a0a0a; color: white; }
+        .neon-border { box-shadow: 0 0 15px rgba(220, 38, 38, 0.5); }
+        .custom-loader { border-top-color: #dc2626; animation: spinner 1.5s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="text-white flex flex-col items-center py-10 px-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
 
-    <!-- Header -->
-    <div class="text-center mb-10">
-        <h1 class="text-4xl font-black bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent italic">DAINIK PROTICCHOBI</h1>
-        <p class="text-gray-400 mt-2 text-sm tracking-widest uppercase">Digital Media Member Portal</p>
-    </div>
-
-    <div class="glass p-8 rounded-3xl shadow-2xl w-full max-w-lg">
-        <div class="space-y-5">
-            <div>
-                <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-bold">মেম্বার নাম</label>
-                <input type="text" id="userName" placeholder="আপনার নাম লিখুন..." class="w-full bg-slate-800 border-none p-4 rounded-xl focus:ring-2 focus:ring-red-600 outline-none text-white">
+    <!-- UI Panel -->
+    <div class="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl shadow-2xl w-full max-w-lg mb-10 transition-all hover:border-red-600">
+        <h1 class="text-3xl font-bold text-center bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent mb-8">Viral Card Studio</h1>
+        
+        <div class="space-y-6">
+            <div class="relative">
+                <label class="text-xs uppercase text-zinc-500 font-bold ml-2">সদস্যের নাম</label>
+                <input type="text" id="userName" placeholder="এখানে পূর্ণ নাম লিখুন" 
+                class="w-full bg-zinc-800 border-2 border-zinc-700 p-4 rounded-2xl outline-none focus:border-red-600 text-lg transition-all">
             </div>
 
-            <div>
-                <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-bold">প্রোফাইল ছবি</label>
-                <input type="file" id="imageUpload" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer">
+            <div class="relative">
+                <label class="text-xs uppercase text-zinc-500 font-bold ml-2">আপনার ছবি (Selfie/Portrait)</label>
+                <input type="file" id="imageUpload" accept="image/*" 
+                class="w-full bg-zinc-800 border-2 border-zinc-700 p-3 rounded-2xl cursor-pointer file:bg-red-600 file:border-none file:text-white file:px-4 file:py-1 file:rounded-lg">
             </div>
 
-            <button onclick="generateCard()" class="w-full bg-gradient-to-r from-red-600 to-red-800 p-4 rounded-xl font-bold uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-lg">
-                তৈরি করুন ✨
+            <button onclick="generateCard()" id="genBtn" class="w-full bg-red-600 py-4 rounded-2xl font-black text-xl tracking-tighter hover:bg-red-700 neon-border transition-all flex justify-center items-center gap-3">
+                <span>জেনারেট করুন</span>
+                <div id="loader" class="hidden w-5 h-5 border-2 border-white custom-loader rounded-full"></div>
             </button>
         </div>
     </div>
 
-    <!-- Output Section -->
-    <div id="output-area" class="mt-12 hidden flex flex-col items-center">
-        <canvas id="photoCard" width="1080" height="1080" class="rounded-2xl shadow-2xl border-4 border-slate-700 w-full max-w-[500px]"></canvas>
+    <!-- Canvas Output -->
+    <div id="output-area" class="hidden flex flex-col items-center w-full max-w-2xl">
+        <div class="relative rounded-3xl overflow-hidden border-4 border-zinc-800 shadow-2xl">
+            <canvas id="photoCard" width="2000" height="2000" class="w-full h-auto"></canvas>
+        </div>
         
-        <button onclick="downloadImage()" class="mt-8 bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            ডাউনলোড এইচডি কার্ড
+        <button onclick="downloadImage()" class="mt-10 bg-green-600 hover:bg-green-700 text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-xl flex items-center gap-4 transition-transform active:scale-95">
+            📥 এইচডি ফটো সেভ করুন
         </button>
     </div>
 
@@ -53,92 +54,147 @@
         const canvas = document.getElementById('photoCard');
         const ctx = canvas.getContext('2d');
         const logo = new Image();
-        logo.src = '1000067122.jpg'; // লোগো ফাইল
+        logo.src = '1000067122.jpg'; // আপনার লোগো
 
         function generateCard() {
-            const name = document.getElementById('userName').value.trim() || "সম্মানিত সদস্য";
+            const nameInput = document.getElementById('userName').value.trim();
+            const name = nameInput || "সম্মানিত সদস্য";
             const fileInput = document.getElementById('imageUpload');
-            
+            const btn = document.getElementById('genBtn');
+            const loader = document.getElementById('loader');
+
             if (fileInput.files.length === 0) {
-                alert("একটি ছবি আপলোড করুন!");
+                alert("দয়া করে একটি প্রোফাইল ছবি নির্বাচন করুন!");
                 return;
             }
 
+            // UI Feedback
+            loader.classList.remove('hidden');
+            btn.classList.add('opacity-80');
+
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    // ১. ক্যানভাস সাইজ ১০৮০x১০৮০ (ইনস্টাগ্রাম সাইজ)
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
-                    // ২. ব্যাকগ্রাউন্ড (ডার্ক গ্রাডিয়েন্ট)
-                    const bgGrad = ctx.createLinearGradient(0, 0, 0, 1080);
-                    bgGrad.addColorStop(0, "#1e293b");
-                    bgGrad.addColorStop(1, "#0f172a");
-                    ctx.fillStyle = bgGrad;
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                    // ৩. মেইন ইমেজ (ফুল ব্যাকগ্রাউন্ড ব্লার ইফেক্ট)
-                    ctx.globalAlpha = 0.3;
-                    ctx.drawImage(img, -100, -100, 1280, 1280);
-                    ctx.globalAlpha = 1.0;
-
-                    // ৪. ছবির জন্য স্টাইলিশ ফ্রেম
-                    ctx.save();
-                    ctx.strokeStyle = "#dc2626";
-                    ctx.lineWidth = 20;
-                    ctx.beginPath();
-                    ctx.roundRect(140, 140, 800, 800, 40);
-                    ctx.stroke();
-                    ctx.clip();
-                    ctx.drawImage(img, 140, 140, 800, 800);
-                    ctx.restore();
-
-                    // ৫. লোগো ওভারলে (বটম বার)
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-                    ctx.fillRect(0, 850, 1080, 230);
-                    
-                    // লোগো বসানো
-                    try {
-                        ctx.drawImage(logo, 340, 870, 400, 80);
-                    } catch(err) {}
-
-                    // ৬. টেক্সট ডিজাইন
-                    ctx.fillStyle = "#ffffff";
-                    ctx.textAlign = "center";
-                    
-                    // নাম (বড় করে)
-                    ctx.font = "bold 60px 'Hind Siliguri'";
-                    ctx.fillText(name, 540, 1000);
-                    
-                    // সাবটাইটেল
-                    ctx.fillStyle = "#cbd5e1";
-                    ctx.font = "30px 'Hind Siliguri'";
-                    ctx.fillText("গর্বিত সদস্য - ডিজিটাল মিডিয়া ক্লাব", 540, 1045);
-
-                    // ৭. ব্যাজ (Verified)
-                    ctx.fillStyle = "#dc2626";
-                    ctx.beginPath();
-                    ctx.arc(920, 160, 60, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.fillStyle = "white";
-                    ctx.font = "bold 30px Arial";
-                    ctx.fillText("✓", 920, 175);
-
+            reader.onload = (e) => {
+                const userImg = new Image();
+                userImg.onload = () => {
+                    renderProcess(userImg, name);
+                    loader.classList.add('hidden');
+                    btn.classList.remove('opacity-80');
                     document.getElementById('output-area').classList.remove('hidden');
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                }
-                img.src = e.target.result;
-            }
+                    window.scrollTo({top: canvas.offsetTop - 50, behavior: 'smooth'});
+                };
+                userImg.src = e.target.result;
+            };
             reader.readAsDataURL(fileInput.files[0]);
+        }
+
+        function renderProcess(img, name) {
+            // ১. ক্যানভাস সেটআপ
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // ২. স্মার্ট অটো-ক্রপ (Center Crop Logic)
+            const canvasRatio = canvas.width / canvas.height;
+            const imgRatio = img.width / img.height;
+            let sw, sh, sx, sy;
+
+            if (imgRatio > canvasRatio) {
+                sh = img.height;
+                sw = img.height * canvasRatio;
+                sx = (img.width - sw) / 2;
+                sy = 0;
+            } else {
+                sw = img.width;
+                sh = img.width / canvasRatio;
+                sx = 0;
+                sy = (img.height - sh) / 2;
+            }
+            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+
+            // ৩. ভাইনাল ওভারলে গ্রাডিয়েন্ট (Curved Section)
+            const grad = ctx.createLinearGradient(0, 1000, 0, 2000);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            grad.addColorStop(0.3, 'rgba(20, 20, 80, 0.95)'); // Deep Indigo
+            grad.addColorStop(1, 'rgba(180, 0, 0, 1)');      // Pure Red
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.moveTo(0, 1200);
+            ctx.bezierCurveTo(500, 1000, 1500, 1000, 2000, 1200);
+            ctx.lineTo(2000, 2000);
+            ctx.lineTo(0, 2000);
+            ctx.fill();
+
+            // ৪. প্রিমিয়াম এলিমেন্টস (Header)
+            // Left Badge
+            ctx.fillStyle = "rgba(220, 38, 38, 0.9)";
+            ctx.roundRect(80, 80, 450, 120, 60);
+            ctx.fill();
+            ctx.fillStyle = "white";
+            ctx.font = "bold 50px 'Hind Siliguri'";
+            ctx.textAlign = "center";
+            ctx.fillText("DIGITAL MEDIA", 305, 160);
+
+            // Right Logo
+            try {
+                ctx.shadowColor = "rgba(0,0,0,0.5)";
+                ctx.shadowBlur = 20;
+                ctx.drawImage(logo, 1550, 80, 350, 150);
+                ctx.shadowBlur = 0;
+            } catch(e) {}
+
+            // ৫. ইনফরমেশন টেক্সট
+            ctx.textAlign = "center";
+            
+            // মেইন টাইটেল
+            ctx.fillStyle = "white";
+            ctx.font = "bold 160px 'Hind Siliguri'";
+            ctx.fillText("দৈনিক প্রতিচ্ছবি", 1000, 1350);
+
+            // স্লোগান (Golden Yellow)
+            ctx.fillStyle = "#FFD700";
+            ctx.font = "80px 'Hind Siliguri'";
+            ctx.letterSpacing = "2px";
+            ctx.fillText("শুভ উদ্বোধনে অনেক অনেক শুভকামনা", 1000, 1480);
+
+            // নেম প্লেট (Stylish Box)
+            ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.roundRect(400, 1650, 1200, 180, 90);
+            ctx.fill();
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+            ctx.lineWidth = 5;
+            ctx.stroke();
+
+            ctx.fillStyle = "white";
+            ctx.font = "900 110px 'Hind Siliguri'";
+            ctx.fillText(name, 1000, 1775);
+
+            // ওয়েবসাইট এবং ফুটার
+            ctx.font = "50px Arial";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            ctx.fillText("www.dainikprotichhobi.com", 1000, 1930);
         }
 
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = 'Dainik_Protichhobi_Premium.png';
+            link.download = 'Protichhobi_Viral_Card.png';
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
+
+        // Helper for rounded rect in older browsers
+        CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+          if (w < 2 * r) r = w / 2;
+          if (h < 2 * r) r = h / 2;
+          this.beginPath();
+          this.moveTo(x + r, y);
+          this.arcTo(x + w, y, x + w, y + h, r);
+          this.arcTo(x + w, y + h, x, y + h, r);
+          this.arcTo(x, y + h, x, y, r);
+          this.arcTo(x, y, x + w, y, r);
+          this.closePath();
+          return this;
+        };
     </script>
 </body>
 </html>
